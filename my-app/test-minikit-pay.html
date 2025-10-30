@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniKit Pay Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@worldcoin/minikit-js@0.0.52/dist/minikit.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .container {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .error {
+            background: #f44336;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .info {
+            background: #2196F3;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        pre {
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 MiniKit Pay Test</h1>
+    
+    <div class="container">
+        <h2>Environment Check</h2>
+        <div id="env-check"></div>
+        <button onclick="checkEnvironment()">Check Environment</button>
+    </div>
+    
+    <div class="container">
+        <h2>Test WLD Payment</h2>
+        <p>This will test a small WLD payment (0.001 WLD) to verify MiniKit Pay functionality.</p>
+        <button onclick="testWLDPayment()">Test WLD Payment</button>
+        <div id="payment-result"></div>
+    </div>
+    
+    <div class="container">
+        <h2>Test Property Purchase Payment</h2>
+        <p>This will test the actual property purchase payment (5 WLD).</p>
+        <button onclick="testPropertyPayment()">Test Property Payment</button>
+        <div id="property-result"></div>
+    </div>
+    
+    <div class="container">
+        <h2>Debug Logs</h2>
+        <div id="debug-logs"></div>
+        <button onclick="clearLogs()">Clear Logs</button>
+    </div>
+
+    <script>
+        const CONTRACT_ADDRESSES = {
+            ECONOMY: '0xC49e59216Ae053586F416fEde49b1A9d2B290a29'
+        };
+        
+        let debugLogs = [];
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            debugLogs.push(logEntry);
+            
+            const logsDiv = document.getElementById('debug-logs');
+            logsDiv.innerHTML = `<pre>${debugLogs.join('\n')}</pre>`;
+            
+            console.log(logEntry);
+        }
+        
+        function clearLogs() {
+            debugLogs = [];
+            document.getElementById('debug-logs').innerHTML = '';
+        }
+        
+        function checkEnvironment() {
+            const envDiv = document.getElementById('env-check');
+            let html = '';
+            
+            // Check if we're in World App
+            const isWorldApp = typeof window.WorldApp !== 'undefined';
+            html += `<div class="${isWorldApp ? 'success' : 'error'}">World App: ${isWorldApp ? 'Detected' : 'Not Detected'}</div>`;
+            
+            // Check MiniKit availability
+            const hasMiniKit = typeof window.MiniKit !== 'undefined';
+            html += `<div class="${hasMiniKit ? 'success' : 'error'}">MiniKit: ${hasMiniKit ? 'Available' : 'Not Available'}</div>`;
+            
+            // Check MiniKit Pay
+            const hasPay = window.MiniKit?.commandsAsync?.pay !== undefined;
+            html += `<div class="${hasPay ? 'success' : 'error'}">MiniKit Pay: ${hasPay ? 'Available' : 'Not Available'}</div>`;
+            
+            // Check MiniKit sendTransaction
+            const hasSendTx = window.MiniKit?.commandsAsync?.sendTransaction !== undefined;
+            html += `<div class="${hasSendTx ? 'success' : 'error'}">MiniKit sendTransaction: ${hasSendTx ? 'Available' : 'Not Available'}</div>`;
+            
+            envDiv.innerHTML = html;
+            
+            log(`Environment check: WorldApp=${isWorldApp}, MiniKit=${hasMiniKit}, Pay=${hasPay}, SendTx=${hasSendTx}`);
+        }
+        
+        async function testWLDPayment() {
+            const resultDiv = document.getElementById('payment-result');
+            resultDiv.innerHTML = '<div class="info">Testing WLD payment...</div>';
+            
+            try {
+                log('Starting WLD payment test');
+                
+                if (!window.MiniKit?.commandsAsync?.pay) {
+                    throw new Error('MiniKit Pay not available');
+                }
+                
+                const payload = {
+                    reference: `test-${Date.now()}`,
+                    to: CONTRACT_ADDRESSES.ECONOMY,
+                    tokens: [{
+                        symbol: 'WLD',
+                        token_amount: '1000000000000000' // 0.001 WLD
+                    }],
+                    description: 'Test WLD Payment'
+                };
+                
+                log(`Payment payload: ${JSON.stringify(payload, null, 2)}`);
+                
+                const result = await window.MiniKit.commandsAsync.pay(payload);
+                log(`Payment result: ${JSON.stringify(result, null, 2)}`);
+                
+                if (result.finalPayload?.status === 'success') {
+                    resultDiv.innerHTML = '<div class="success">✅ WLD Payment successful!</div>';
+                    log('WLD payment test successful');
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Payment failed: ${result.finalPayload?.error_code || 'Unknown error'}</div>`;
+                    log(`WLD payment test failed: ${result.finalPayload?.error_code}`);
+                }
+                
+            } catch (error) {
+                log(`WLD payment test error: ${error.message}`);
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function testPropertyPayment() {
+            const resultDiv = document.getElementById('property-result');
+            resultDiv.innerHTML = '<div class="info">Testing property purchase payment...</div>';
+            
+            try {
+                log('Starting property payment test');
+                
+                if (!window.MiniKit?.commandsAsync?.pay) {
+                    throw new Error('MiniKit Pay not available');
+                }
+                
+                const payload = {
+                    reference: `property-test-${Date.now()}`,
+                    to: CONTRACT_ADDRESSES.ECONOMY,
+                    tokens: [{
+                        symbol: 'WLD',
+                        token_amount: '5000000000000000000' // 5 WLD (actual property price)
+                    }],
+                    description: 'Test Property Purchase - Neural Pod'
+                };
+                
+                log(`Property payment payload: ${JSON.stringify(payload, null, 2)}`);
+                
+                const result = await window.MiniKit.commandsAsync.pay(payload);
+                log(`Property payment result: ${JSON.stringify(result, null, 2)}`);
+                
+                if (result.finalPayload?.status === 'success') {
+                    resultDiv.innerHTML = '<div class="success">✅ Property payment successful!</div>';
+                    log('Property payment test successful');
+                    
+                    // Now test the transaction part
+                    await testPropertyTransaction(result.finalPayload);
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Payment failed: ${result.finalPayload?.error_code || 'Unknown error'}</div>`;
+                    log(`Property payment test failed: ${result.finalPayload?.error_code}`);
+                }
+                
+            } catch (error) {
+                log(`Property payment test error: ${error.message}`);
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function testPropertyTransaction(paymentPayload) {
+            try {
+                log('Testing property minting transaction');
+                
+                if (!window.MiniKit?.commandsAsync?.sendTransaction) {
+                    throw new Error('MiniKit sendTransaction not available');
+                }
+                
+                const txPayload = {
+                    transaction: [{
+                        address: CONTRACT_ADDRESSES.ECONOMY,
+                        abi: [{
+                            "inputs": [
+                                {"internalType": "string", "name": "propertyType", "type": "string"},
+                                {"internalType": "string", "name": "name", "type": "string"},
+                                {"internalType": "string", "name": "location", "type": "string"},
+                                {"internalType": "uint256", "name": "level", "type": "uint256"},
+                                {"internalType": "bool", "name": "useWLD", "type": "bool"},
+                                {"internalType": "string", "name": "tokenURI", "type": "string"}
+                            ],
+                            "name": "purchaseProperty",
+                            "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                            "stateMutability": "payable",
+                            "type": "function"
+                        }],
+                        functionName: 'purchaseProperty',
+                        args: [
+                            'neural_pod',
+                            'Test Neural Pod',
+                            'Test Location',
+                            1,
+                            true,
+                            ''
+                        ]
+                    }]
+                };
+                
+                log(`Transaction payload: ${JSON.stringify(txPayload, null, 2)}`);
+                
+                const txResult = await window.MiniKit.commandsAsync.sendTransaction(txPayload);
+                log(`Transaction result: ${JSON.stringify(txResult, null, 2)}`);
+                
+                if (txResult.finalPayload?.status === 'success') {
+                    log('Property minting transaction successful');
+                    document.getElementById('property-result').innerHTML += '<div class="success">✅ Property minting successful!</div>';
+                } else {
+                    log(`Property minting transaction failed: ${txResult.finalPayload?.error_code}`);
+                    document.getElementById('property-result').innerHTML += `<div class="error">❌ Minting failed: ${txResult.finalPayload?.error_code || 'Unknown error'}</div>`;
+                }
+                
+            } catch (error) {
+                log(`Property transaction test error: ${error.message}`);
+                document.getElementById('property-result').innerHTML += `<div class="error">❌ Transaction Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Auto-check environment on load
+        window.addEventListener('load', checkEnvironment);
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+# Copy and paste these environment variables into your Coolify application settings
+# Replace the placeholder values with your actual configuration
+
+# === REQUIRED: Worldcoin Configuration ===
+NEXT_PUBLIC_WLD_APP_ID=app_YOUR_MINI_APP_ID_HERE
+NEXT_PUBLIC_WLD_ACTION_ID=your-action-id-here
+DEV_PORTAL_API_KEY=your_dev_portal_api_key_here
+APP_ID=app_YOUR_MINI_APP_ID_HERE
+
+# === REQUIRED: Application URLs ===
+NEXT_PUBLIC_APP_URL=https://your-domain.com
+NEXTAUTH_URL=https://your-domain.com
+
+# === REQUIRED: Security ===
+NEXTAUTH_SECRET=generate_a_random_secret_key_for_production
+
+# === Blockchain Network Configuration ===
+NEXT_PUBLIC_CHAIN_ID=480
+NEXT_PUBLIC_NETWORK_NAME=Worldchain
+NEXT_PUBLIC_RPC_URL=https://worldchain-mainnet.g.alchemy.com/public
+NEXT_PUBLIC_BLOCK_EXPLORER=https://explorer.worldcoin.org
+
+# === Smart Contract Addresses (Update with your deployed contracts) ===
+NEXT_PUBLIC_LIFE_TOKEN_ADDRESS=YOUR_LIFE_TOKEN_ADDRESS_HERE
+NEXT_PUBLIC_PROPERTY_CONTRACT_ADDRESS=YOUR_PROPERTY_CONTRACT_ADDRESS_HERE
+NEXT_PUBLIC_LIMITED_EDITION_ADDRESS=YOUR_LIMITED_EDITION_ADDRESS_HERE
+NEXT_PUBLIC_PLAYER_REGISTRY_ADDRESS=YOUR_PLAYER_REGISTRY_ADDRESS_HERE
+NEXT_PUBLIC_ECONOMY_CONTRACT_ADDRESS=0xC49e59216Ae053586F416fEde49b1A9d2B290a29
+NEXT_PUBLIC_WORLD_ID_ADDRESS_BOOK=YOUR_WORLD_ID_ADDRESS_BOOK_HERE
+
+# === Production Optimizations ===
+NODE_ENV=production
+NEXT_TELEMETRY_DISABLED=1
+
+# === Instructions ===
+# 1. Replace all "YOUR_*_HERE" placeholders with actual values
+# 2. Generate a secure random string for NEXTAUTH_SECRET
+# 3. Update domain URLs to match your actual domain
+# 4. Ensure all contract addresses are from your deployed smart contracts

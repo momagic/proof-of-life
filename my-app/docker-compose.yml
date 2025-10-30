@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  proof-of-life:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      # Environment variables will be set in Coolify
+      - NEXT_PUBLIC_WLD_APP_ID=${NEXT_PUBLIC_WLD_APP_ID}
+      - NEXT_PUBLIC_WLD_ACTION_ID=${NEXT_PUBLIC_WLD_ACTION_ID}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+      - NEXT_PUBLIC_CHAIN_ID=${NEXT_PUBLIC_CHAIN_ID}
+      - NEXT_PUBLIC_NETWORK_NAME=${NEXT_PUBLIC_NETWORK_NAME}
+      - NEXT_PUBLIC_RPC_URL=${NEXT_PUBLIC_RPC_URL}
+      - NEXT_PUBLIC_BLOCK_EXPLORER=${NEXT_PUBLIC_BLOCK_EXPLORER}
+      - NEXT_PUBLIC_LIFE_TOKEN_ADDRESS=${NEXT_PUBLIC_LIFE_TOKEN_ADDRESS}
+      - NEXT_PUBLIC_PROPERTY_CONTRACT_ADDRESS=${NEXT_PUBLIC_PROPERTY_CONTRACT_ADDRESS}
+      - NEXT_PUBLIC_LIMITED_EDITION_ADDRESS=${NEXT_PUBLIC_LIMITED_EDITION_ADDRESS}
+      - NEXT_PUBLIC_PLAYER_REGISTRY_ADDRESS=${NEXT_PUBLIC_PLAYER_REGISTRY_ADDRESS}
+      - NEXT_PUBLIC_ECONOMY_CONTRACT_ADDRESS=${NEXT_PUBLIC_ECONOMY_CONTRACT_ADDRESS}
+      - NEXT_PUBLIC_WORLD_ID_ADDRESS_BOOK=${NEXT_PUBLIC_WORLD_ID_ADDRESS_BOOK}
+      - DEV_PORTAL_API_KEY=${DEV_PORTAL_API_KEY}
+      - APP_ID=${APP_ID}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

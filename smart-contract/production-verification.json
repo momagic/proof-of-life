@@ -1,0 +1,125 @@
+{
+  "timestamp": "2025-10-03T20:40:37.071Z",
+  "network": "worldchain",
+  "chainId": 480,
+  "addresses": {
+    "life": "0xCb60B6C6f44138Eef5d8e0ABECcA4Ad34Db16B68",
+    "property": "0xaECD39A7aFE6C34Fbd76446d95EbB2D97eA6B070",
+    "limitedEdition": "0xd31AeDF0d364e17363BaBB5164DBC64e42d9A34e",
+    "playerRegistry": "0x292B0D28b54F241ad230eba9Cdc235c6B7A6FF57",
+    "economy": "0xe2fd8b534B9A3C8ba2353a2309A9a3d6f7dF9636",
+    "economyOld": "0xa9df17292D42Ce503daBE61ec3da107E45E836C9",
+    "economySimple": {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "deployedAt": "2025-09-16T19:57:02.661Z",
+      "version": "simple",
+      "features": [
+        "life-wld-payments",
+        "property-yield-earning",
+        "yield-claiming",
+        "level-based-pricing",
+        "property-buyback"
+      ]
+    }
+  },
+  "tests": {
+    "lifeToken": {
+      "name": "LIFE",
+      "symbol": "LIFE",
+      "groupId": 1,
+      "appId": "app_960683747d9e6074f64601c654c8775f",
+      "action": "proof-of-life",
+      "dailyAmount": "1.0",
+      "signingBonus": "1000.0",
+      "status": "✅ PASS"
+    },
+    "economy": {
+      "treasuryFee": 500,
+      "devFee": 200,
+      "buybackPercentage": 7500,
+      "wldToLifeRate": "100.0",
+      "propertyPrices": {
+        "house": {
+          "lifePrice": "1000.0",
+          "wldPrice": "10.0",
+          "isActive": true
+        },
+        "apartment": {
+          "lifePrice": "500.0",
+          "wldPrice": "5.0",
+          "isActive": true
+        },
+        "office": {
+          "lifePrice": "2000.0",
+          "wldPrice": "20.0",
+          "isActive": true
+        },
+        "land": {
+          "lifePrice": "750.0",
+          "wldPrice": "7.5",
+          "isActive": true
+        },
+        "mansion": {
+          "lifePrice": "5000.0",
+          "wldPrice": "50.0",
+          "isActive": true
+        }
+      },
+      "status": "✅ PASS"
+    },
+    "permissions": {
+      "economyCanMintLife": true,
+      "economyCanMintProperty": true,
+      "economyCanMintLE": true,
+      "economyCanUpdatePlayer": true,
+      "status": "✅ PASS"
+    },
+    "property": {
+      "name": "LIFE Property",
+      "symbol": "LPROP",
+      "baseStats": {
+        "house": {
+          "statusPoints": 100,
+          "yieldRate": 300
+        },
+        "apartment": {
+          "statusPoints": 50,
+          "yieldRate": 200
+        },
+        "office": {
+          "statusPoints": 200,
+          "yieldRate": 500
+        },
+        "land": {
+          "statusPoints": 75,
+          "yieldRate": 100
+        },
+        "mansion": {
+          "statusPoints": 500,
+          "yieldRate": 800
+        }
+      },
+      "status": "✅ PASS"
+    },
+    "worldId": {
+      "externalNullifierHash": "333545013268033606231922768817910041010535579982205010670445874042009088680",
+      "groupId": 1,
+      "isOrbOnly": true,
+      "status": "✅ PASS"
+    },
+    "network": {
+      "chainId": 480,
+      "name": "worldchain",
+      "gasPrice": "0.001249744",
+      "blockNumber": 20094200,
+      "status": "✅ PASS"
+    }
+  },
+  "summary": {
+    "totalTests": 6,
+    "passedTests": 6,
+    "failedTests": 0,
+    "partialTests": 0,
+    "successRate": "100.0"
+  }
+}

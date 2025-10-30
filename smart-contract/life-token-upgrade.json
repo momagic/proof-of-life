@@ -1,0 +1,21 @@
+{
+  "EXISTING_LIFE_TOKEN": "0xE4D62e62013EaF065Fa3F0316384F88559C80889",
+  "NEW_IMPLEMENTATION": "0x3e0DcA644fd21ceC8f0c08fd2734eF3b7c75b185",
+  "WORLD_ID_ROUTER": "0x17B354dD2595411ff79041f930e491A4Df39A278",
+  "UPGRADE_DATE": "2025-09-16T21:12:13.195Z",
+  "UPGRADER": "0xA13A18ccD767B83543212B0424426A374f565Fb8",
+  "NETWORK": "worldchain",
+  "FEATURES_ADDED": [
+    "World ID orb verification",
+    "Daily LIFE token claims",
+    "Signing bonus for new users",
+    "Authorized minter system",
+    "Sybil resistance with nullifiers"
+  ],
+  "PRESERVED": [
+    "Same contract address",
+    "All existing user balances",
+    "All existing token supply",
+    "All existing token holders"
+  ]
+}

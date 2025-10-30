@@ -1,0 +1,37 @@
+{
+  "name": "hardhat-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "test:orb": "hardhat test test-orb-verification.js",
+    "deploy": "hardhat run scripts/deploy.js",
+    "deploy:orb": "hardhat run scripts/deploy-orb-verification.js",
+    "deploy:orb:worldchain": "hardhat run scripts/deploy-orb-verification.js --network worldchain",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:worldchain": "hardhat run scripts/deploy.js --network worldchain",
+    "generate:sig": "hardhat run scripts/generate-signature.js",
+    "node": "hardhat node",
+    "withdraw": "hardhat run scripts/withdraw-funds.js --network worldchain",
+    "withdraw:local": "hardhat run scripts/withdraw-funds.js --network localhost"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "Hardhat project for testing TUTE contract",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.13",
+    "@openzeppelin/contracts": "^5.0.0",
+    "@openzeppelin/contracts-upgradeable": "^5.0.0",
+    "@openzeppelin/hardhat-upgrades": "^3.0.0",
+    "chai": "^4.5.0",
+    "ethers": "^6.8.1",
+    "hardhat": "^2.18.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  }
+}

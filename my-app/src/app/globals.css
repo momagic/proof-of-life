@@ -1,0 +1,538 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  html,
+  body {
+    width: 100vw;
+    height: 100vh;
+    overscroll-behavior: none;
+    @apply bg-background text-foreground;
+    /* Mobile-first game UI defaults */
+    font-size: 12px; /* Default to small text for mobile */
+    /* World Mini App safe area support */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  /* Mobile-first responsive typography */
+  @media (min-width: 640px) {
+    html, body {
+      font-size: 14px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    html, body {
+      font-size: 16px;
+    }
+  }
+  
+  /* Fix for mobile viewport units */
+  html {
+    height: 100dvh;
+  }
+  
+  body {
+    height: 100dvh;
+  }
+  
+  /* Prevent scroll bounce on iOS */
+  #__next {
+    height: 100dvh;
+  }
+  
+  /* Allow scrolling within main content areas */
+  main {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* World Mini App compliant UI utility classes */
+  .game-panel {
+    @apply backdrop-blur-md bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl;
+    /* World guideline: 24px default padding */
+    @apply p-6;
+    @apply text-xs sm:text-sm;
+  }
+  
+  .game-card {
+    @apply backdrop-blur-md bg-gradient-to-br from-white/15 to-white/5 border border-blue-400/30 rounded-lg;
+    /* World guideline: 24px default padding */
+    @apply p-6;
+    @apply text-xs;
+  }
+  
+  .game-button {
+    @apply px-6 py-3;
+    @apply text-sm sm:text-base;
+    @apply rounded-lg sm:rounded-xl;
+  }
+  
+  /* World Mini App spacing utilities */
+  .world-header-spacing {
+    /* 16px between header and content */
+    @apply mb-4;
+  }
+  
+  .world-section-spacing {
+    /* 32px between sections */
+    @apply mb-8;
+  }
+  
+  .world-sub-spacing {
+    /* 12px between secondary title and description */
+    @apply mb-3;
+  }
+  
+  .world-safe-bottom {
+    /* 24px from bottom bar */
+    @apply pb-6;
+  }
+  
+  .world-safe-system {
+     /* 12px from system bars */
+     @apply p-3;
+   }
+   
+   .world-keyboard-safe {
+     /* 24px above keyboard when active */
+     padding-bottom: max(24px, env(keyboard-inset-height, 0px));
+   }
+   
+   .world-drawer-safe {
+     /* 12px from iOS/Android bottom bars for drawers */
+     margin-bottom: max(12px, env(safe-area-inset-bottom));
+   }
+   
+   .world-toast-safe {
+     /* Positioned below header with safe area consideration */
+     top: max(60px, calc(60px + env(safe-area-inset-top)));
+   }
+  
+  /* Compact grid layouts for mobile */
+  .game-grid-2 {
+    @apply grid grid-cols-2 gap-2 sm:gap-4;
+  }
+  
+  .game-grid-3 {
+    @apply grid grid-cols-3 gap-1 sm:gap-2;
+  }
+  
+  /* Horizontal scrollable containers */
+  .horizontal-scroll {
+    @apply flex overflow-x-auto gap-2 pb-2;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .horizontal-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Custom animations for smooth transitions */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.7s ease-in-out;
+  }
+  
+  /* Globe animations removed - keeping only simple dots */
+  
+  /* ===== CYBERPUNK NEURAL INTERFACE ANIMATIONS ===== */
+  
+  /* Glitch Effects */
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+  
+  @keyframes textGlitch {
+    0% { text-shadow: 0.05em 0 0 #00ffff, -0.05em -0.025em 0 #ff00ff, 0.025em 0.05em 0 #ffff00; }
+    15% { text-shadow: 0.05em 0 0 #00ffff, -0.05em -0.025em 0 #ff00ff, 0.025em 0.05em 0 #ffff00; }
+    16% { text-shadow: -0.05em -0.025em 0 #00ffff, 0.025em 0.025em 0 #ff00ff, -0.05em -0.05em 0 #ffff00; }
+    49% { text-shadow: -0.05em -0.025em 0 #00ffff, 0.025em 0.025em 0 #ff00ff, -0.05em -0.05em 0 #ffff00; }
+    50% { text-shadow: 0.025em 0.05em 0 #00ffff, 0.05em 0 0 #ff00ff, 0 -0.05em 0 #ffff00; }
+    99% { text-shadow: 0.025em 0.05em 0 #00ffff, 0.05em 0 0 #ff00ff, 0 -0.05em 0 #ffff00; }
+    100% { text-shadow: -0.025em 0 0 #00ffff, -0.025em -0.025em 0 #ff00ff, -0.025em -0.05em 0 #ffff00; }
+  }
+  
+  /* Neural Network Connection */
+  @keyframes neuralPulse {
+    0%, 100% { 
+      opacity: 0.3;
+      transform: scale(1);
+      filter: brightness(1);
+    }
+    50% { 
+      opacity: 1;
+      transform: scale(1.05);
+      filter: brightness(1.2);
+    }
+  }
+  
+  @keyframes neuralConnect {
+    0% { 
+      stroke-dasharray: 0 100;
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% { 
+      stroke-dasharray: 100 0;
+      opacity: 0.8;
+    }
+  }
+  
+  /* Biometric Scanner Effects */
+  @keyframes scanLine {
+    0% { 
+      transform: translateY(-100%) scaleY(0);
+      opacity: 0;
+    }
+    10% { 
+      transform: translateY(-100%) scaleY(1);
+      opacity: 1;
+    }
+    90% { 
+      transform: translateY(100%) scaleY(1);
+      opacity: 1;
+    }
+    100% { 
+      transform: translateY(100%) scaleY(0);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes fingerprintScan {
+    0% {
+      background: conic-gradient(from 0deg, transparent, transparent, #00d4ff, transparent, transparent);
+      transform: rotate(0deg);
+    }
+    100% {
+      background: conic-gradient(from 360deg, transparent, transparent, #00d4ff, transparent, transparent);
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes retinaScan {
+    0%, 100% {
+      box-shadow: 
+        inset 0 0 20px #ff00ff,
+        inset 0 0 40px #ff00ff,
+        0 0 20px #ff00ff;
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 
+        inset 0 0 40px #ff00ff,
+        inset 0 0 80px #ff00ff,
+        0 0 40px #ff00ff;
+      transform: scale(1.1);
+    }
+  }
+  
+  /* Data Stream Flow */
+  @keyframes dataStream {
+    0% {
+      transform: translateY(-100vh);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+  }
+  
+  /* Circuit Board Patterns */
+  @keyframes circuitFlow {
+    0% {
+      stroke-dasharray: 0 20;
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      stroke-dasharray: 20 0;
+      opacity: 0.3;
+    }
+  }
+  
+  /* Static Interference */
+  @keyframes staticNoise {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.1; }
+  }
+  
+  @keyframes screenFlicker {
+    0%, 98%, 100% { opacity: 1; }
+    99% { opacity: 0.8; }
+  }
+  
+  /* Holographic Effects */
+  @keyframes holographicShimmer {
+    0% {
+      background-position: -200% center;
+    }
+    100% {
+      background-position: 200% center;
+    }
+  }
+  
+  /* Terminal Cursor */
+  @keyframes terminalBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  /* Neural Panel Activation */
+  @keyframes panelActivate {
+    0% {
+      border-color: rgba(0, 212, 255, 0.3);
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+    }
+    100% {
+      border-color: rgba(0, 212, 255, 1);
+      box-shadow: 
+        0 0 20px rgba(0, 212, 255, 0.5),
+        inset 0 0 20px rgba(0, 212, 255, 0.1);
+    }
+  }
+  
+  /* ===== CYBERPUNK UTILITY CLASSES ===== */
+  
+  .neural-panel {
+    @apply relative overflow-hidden;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 20, 40, 0.8) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    box-shadow: 
+      0 0 20px rgba(0, 212, 255, 0.1),
+      inset 0 0 20px rgba(0, 212, 255, 0.05);
+  }
+  
+  .neural-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+    animation: energy-flow 3s ease-in-out infinite;
+  }
+  
+  .biometric-scanner {
+    @apply relative overflow-hidden rounded-full;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+    border: 2px solid rgba(0, 212, 255, 0.5);
+  }
+  
+  .biometric-scanner::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent 0deg, #00d4ff 10deg, transparent 20deg);
+    animation: fingerprintScan 2s linear infinite;
+  }
+  
+  .neural-link-active {
+    animation: neuralPulse 2s ease-in-out infinite;
+  }
+  
+  .glitch-text {
+    animation: textGlitch 0.3s ease-in-out infinite;
+  }
+  
+  .scan-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+    animation: scanLine 3s ease-in-out infinite;
+  }
+  
+  .data-stream {
+    position: absolute;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, #00d4ff, transparent);
+    animation: dataStream 4s linear infinite;
+  }
+  
+  .terminal-text {
+    font-family: 'Courier New', monospace;
+    color: #00d4ff;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  }
+  
+  .terminal-cursor::after {
+    content: '_';
+    animation: terminalBlink 1s infinite;
+  }
+  
+  .holographic-text {
+    background: linear-gradient(45deg, #00d4ff, #ff00ff, #00d4ff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: holographicShimmer 3s ease-in-out infinite;
+  }
+  
+  .static-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.03) 2px,
+        rgba(255, 255, 255, 0.03) 4px
+      );
+    animation: staticNoise 0.1s infinite;
+    pointer-events: none;
+  }
+  
+  .screen-flicker {
+    animation: screenFlicker 0.15s infinite linear;
+  }
+}
