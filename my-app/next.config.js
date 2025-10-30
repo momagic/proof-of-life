@@ -10,7 +10,14 @@ const nextConfig = {
     // your project has type errors.
     ignoreBuildErrors: true,
   },
-  // output: 'standalone', // Temporarily disabled due to Windows symlink issues
+  // Explicitly disable standalone mode for Coolify deployment
+  // Use standard Next.js build for better compatibility
+  // output: 'standalone', // Disabled for Coolify deployment
+  
+  // Environment-based configuration
+  ...(process.env.ENABLE_STANDALONE === 'false' && {
+    // Standard build configuration for deployment
+  }),
 };
 
 module.exports = nextConfig;
