@@ -39,7 +39,10 @@ Set these environment variables in your Coolify deployment dashboard:
 NODE_ENV=production
 NEXT_TELEMETRY_DISABLED=1
 ENABLE_STANDALONE=false
+PORT=3000
 ```
+
+**Note**: For multiple apps on the same VPS, change `PORT` to `3001`, `3002`, etc. for each additional app.
 
 ### Worldcoin Configuration
 ```
@@ -116,7 +119,35 @@ NEXT_PUBLIC_WLD_TOKEN_ADDRESS=0x2cFc85d8E48F8EAB294be644d9E25C3030863003
 
 ## Port Configuration
 
+### Single App Deployment
 The application runs on port 3000 by default. Coolify will automatically handle port mapping.
+
+### Multiple Apps on Same VPS
+If you're deploying multiple Next.js apps on the same VPS, each app needs a unique port:
+
+#### Port Assignment Strategy:
+- **App 1 (Proof of Life)**: Port `3000` (default)
+- **App 2**: Port `3001`
+- **App 3**: Port `3002`
+- **Additional apps**: Continue incrementing (`3003`, `3004`, etc.)
+
+#### Configuration Steps:
+1. **In Coolify Environment Variables**, add:
+   ```
+   PORT=3000  # For first app
+   PORT=3001  # For second app
+   PORT=3002  # For third app, etc.
+   ```
+
+2. **Port Mapping**: Coolify automatically handles external port mapping and reverse proxy
+
+3. **Domain Configuration**: Each app can have its own custom domain regardless of internal port
+
+#### Benefits:
+- ✅ No port conflicts between applications
+- ✅ Independent scaling and management
+- ✅ Automatic reverse proxy handling by Coolify
+- ✅ Custom domains for each application
 
 ## Important Notes
 

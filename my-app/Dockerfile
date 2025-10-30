@@ -55,9 +55,12 @@ RUN chown nextjs:nodejs .next
 
 USER nextjs
 
-EXPOSE 3000
+# Port configuration - can be overridden via environment variable
+# Default to 3000, but allows customization for multiple app deployments
+ARG PORT=3000
+ENV PORT ${PORT}
+EXPOSE ${PORT}
 
-ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 
