@@ -1,12 +1,11 @@
 "use client"; // Required for Next.js
 
 import { ReactNode, useEffect, useState, useRef } from "react";
-import { MiniKit } from "@worldcoin/minikit-js";
 
 // Access to window.MiniKit for direct debugging access
 declare global {
   interface Window {
-    MiniKit: typeof MiniKit & {
+    MiniKit: any & {
       commands?: Record<string, any>;
       commandsAsync?: Record<string, any>;
       install?: (appId?: string) => void;
@@ -43,6 +42,7 @@ export default function MiniKitProvider({ children }: { children: ReactNode }) {
         );
 
         // Make sure MiniKit class is available
+        const MiniKit = (window as any).MiniKit;
         if (!MiniKit) {
           console.error("MiniKit class not available");
           return false;
@@ -57,7 +57,7 @@ export default function MiniKitProvider({ children }: { children: ReactNode }) {
         }
 
         // Make sure the global instance is available
-        window.MiniKit = MiniKit as any; // Type cast to avoid type conflicts
+        window.MiniKit = MiniKit as any;
 
         console.log("MiniKit installed, waiting for commands to be ready...");
 

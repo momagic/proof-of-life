@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Shield, Eye, Fingerprint, Zap } from "lucide-react";
-import {
-  MiniKit,
+import type {
   VerifyCommandInput,
   VerificationLevel,
   ISuccessResult,
@@ -64,10 +63,10 @@ export function VerifyButton({ onVerificationSuccess }: VerifyButtonProps) {
       // Start biometric scanning sequence
       await simulateBiometricScan();
 
-      const verifyPayload: VerifyCommandInput = {
+      const verifyPayload: any = {
         action: process.env.NEXT_PUBLIC_WLD_ACTION_ID || "web3-template",
         signal: "",
-        verification_level: VerificationLevel.Orb,
+        verification_level: 'orb',
       };
 
       // Use async approach with commandsAsync
@@ -75,8 +74,8 @@ export function VerifyButton({ onVerificationSuccess }: VerifyButtonProps) {
 
       // Ensure the MiniKit is correctly initialized before using it
       if (
-        !MiniKit.commandsAsync ||
-        typeof MiniKit.commandsAsync.verify !== "function"
+        !window.MiniKit?.commandsAsync ||
+        typeof window.MiniKit.commandsAsync.verify !== "function"
       ) {
         throw new Error(
           "MiniKit.commandsAsync.verify is not available. Make sure you're using the latest version of the MiniKit library."
@@ -84,7 +83,7 @@ export function VerifyButton({ onVerificationSuccess }: VerifyButtonProps) {
       }
 
       // Execute the verify command and wait for the result
-      const { finalPayload } = await MiniKit.commandsAsync.verify(
+      const { finalPayload } = await window.MiniKit.commandsAsync.verify(
         verifyPayload
       );
 

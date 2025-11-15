@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from "react";
-import { MiniKit } from "@worldcoin/minikit-js";
 
 interface User {
   address: string;
@@ -51,7 +50,7 @@ export function UnifiedMiniKitAuthProvider({ children }: { children: ReactNode }
       const hasMiniKit = window.MiniKit !== undefined;
       const hasCommands = window.MiniKit?.commands !== undefined;
       const hasCommandsAsync = window.MiniKit?.commandsAsync !== undefined;
-      const isInstalledCheck = typeof MiniKit?.isInstalled === 'function' ? MiniKit.isInstalled() : false;
+      const isInstalledCheck = typeof window.MiniKit?.isInstalled === 'function' ? window.MiniKit.isInstalled() : false;
       
       // Check if we're in World App environment
       const isWorldApp = window.WorldApp !== undefined;
@@ -163,7 +162,7 @@ export function UnifiedMiniKitAuthProvider({ children }: { children: ReactNode }
     // More robust check for production environments
     const hasMiniKitCommands = window.MiniKit?.commandsAsync?.walletAuth !== undefined;
     const isWorldApp = window.WorldApp !== undefined;
-    const isInstalledCheck = typeof MiniKit?.isInstalled === 'function' ? MiniKit.isInstalled() : false;
+    const isInstalledCheck = typeof window.MiniKit?.isInstalled === 'function' ? window.MiniKit.isInstalled() : false;
     
     console.log('[Auth] Wallet connection checks:', {
       hasMiniKitCommands,
@@ -184,7 +183,7 @@ export function UnifiedMiniKitAuthProvider({ children }: { children: ReactNode }
       const nonce = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       
       // Perform wallet authentication with MiniKit
-      const { finalPayload } = await MiniKit.commandsAsync.walletAuth({
+      const { finalPayload } = await window.MiniKit.commandsAsync.walletAuth({
         nonce,
         expirationTime: new Date(new Date().getTime() + 1 * 60 * 60 * 1000), // 1 hour
         statement: "Sign in with your World ID wallet to access the Proof of Life app",
@@ -208,7 +207,7 @@ export function UnifiedMiniKitAuthProvider({ children }: { children: ReactNode }
       // Get user profile from MiniKit
       let userProfile;
       try {
-        userProfile = await MiniKit.getUserByAddress(finalPayload.address);
+        userProfile = await window.MiniKit.getUserByAddress(finalPayload.address);
       } catch (error) {
         console.warn('Could not fetch user profile, using address only:', error);
         userProfile = { username: null, profilePictureUrl: null };

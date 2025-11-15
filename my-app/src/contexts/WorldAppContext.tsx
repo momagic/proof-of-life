@@ -1,7 +1,6 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { MiniKit } from '@worldcoin/minikit-js';
 
 // Extend the Window interface to include WorldApp
 declare global {
@@ -82,7 +81,7 @@ export const WorldAppProvider: React.FC<WorldAppProviderProps> = ({ children }) 
           setIsWorldApp(true);
           
           // Get device properties from MiniKit
-          const properties = MiniKit.deviceProperties;
+          const properties = (window as any).MiniKit?.deviceProperties;
           
           if (properties) {
             setDeviceProperties({

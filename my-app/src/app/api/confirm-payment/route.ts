@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { MiniAppPaymentSuccessPayload } from '@worldcoin/minikit-js';
+import type { MiniAppPaymentSuccessPayload } from '@worldcoin/minikit-js';
 import { ethers } from 'ethers';
 
 interface IRequestPayload {

@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Zap, Activity, Cpu, Wifi } from "lucide-react";
 import { useUnifiedAuth } from "@/providers/unified-minikit-auth";
-import { MiniKit } from "@worldcoin/minikit-js";
 import { LIFE_ABI } from "@/life-abi";
 import { CONTRACT_ADDRESSES } from "@/lib/contract-utils";
 import LocationSelector from "./LocationSelector";
@@ -230,7 +229,7 @@ export function ClaimButton({ onSuccess }: ClaimButtonProps) {
       
       setScannerState('claiming');
       // Send transaction to claim tokens
-      const { finalPayload } = await MiniKit.commandsAsync.sendTransaction({
+      const { finalPayload } = await (window as any).MiniKit.commandsAsync.sendTransaction({
         transaction: [
           {
             address: CONTRACT_ADDRESSES.LIFE_TOKEN,

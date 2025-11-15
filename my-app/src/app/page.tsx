@@ -6,7 +6,6 @@ import { LifeTimer } from "@/components/LifeTimer";
 import { VerifyButton } from "@/components/VerifyButton";
 import { ClaimButton } from "@/components/ClaimButton";
 import { WalletAuthButton } from "@/components/wallet-auth-button";
-import { useWaitForTransactionReceipt } from "@worldcoin/minikit-react";
 import { TransactionStatus } from "@/components/TransactionStatus";
 import Globe3D from "@/components/Globe3D";
 import { useGeolocation } from "@/components/Globe3D";
@@ -57,15 +56,23 @@ export default function Page() {
 
   // Contract interaction utilities are now handled by LifeTokenContract class
 
-  // Track transaction status
-  const { isLoading: isConfirming, isSuccess: isConfirmed } =
-    useWaitForTransactionReceipt({
-      client,
-      appConfig: {
-        app_id: process.env.NEXT_PUBLIC_WLD_APP_ID || "",
-      },
-      transactionId,
-    });
+  const [isConfirming, setIsConfirming] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const track = async () => {
+      if (!transactionId) return;
+      setIsConfirming(true);
+      const ok = await ContractUtils.waitForTransaction(transactionId);
+      if (!cancelled) {
+        setIsConfirmed(ok);
+        setIsConfirming(false);
+      }
+    };
+    track();
+    return () => { cancelled = true; };
+  }, [transactionId]);
 
   // Function to fetch recent blockchain claims
   const fetchRecentBlockchainClaims = useCallback(async () => {

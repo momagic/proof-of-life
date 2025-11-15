@@ -13,6 +13,9 @@ export const CONTRACT_ADDRESSES = {
   get LIFE_TOKEN() { 
     return (process.env.NEXT_PUBLIC_LIFE_TOKEN_ADDRESS as `0x${string}`) || PRODUCTION_CONTRACTS.LIFE_TOKEN;
   },
+  get ECONOMY_V2() {
+    return (process.env.NEXT_PUBLIC_ECONOMY_V2_ADDRESS as `0x${string}`) || (process.env.NEXT_PUBLIC_ECONOMY_CONTRACT_ADDRESS as `0x${string}`) || PRODUCTION_CONTRACTS.ECONOMY;
+  },
   get PROPERTY() { 
     return (process.env.NEXT_PUBLIC_PROPERTY_CONTRACT_ADDRESS as `0x${string}`) || PRODUCTION_CONTRACTS.PROPERTY;
   },
@@ -888,15 +891,18 @@ class PlayerRegistryContract {
 class EconomyContract {
   static async getPropertyPrice(propertyType: string): Promise<{ lifePrice: bigint; wldPrice: bigint; isActive: boolean }> {
     try {
-      if (!CONTRACT_ADDRESSES.ECONOMY) {
+      const econV2Address = CONTRACT_ADDRESSES.ECONOMY_V2;
+      if (!econV2Address) {
         throw new Error('Economy contract address not configured');
       }
-      
+      // Normalize to lowercase to match on-chain keys
+      const normalizedType = propertyType.toLowerCase();
+
       const result = await rpcManager.readContract({
-        address: CONTRACT_ADDRESSES.ECONOMY,
+        address: econV2Address,
         abi: ECONOMYV2_ABI,
         functionName: 'getPropertyPrice',
-        args: [propertyType],
+        args: [normalizedType],
       }) as any;
 
       // Handle both tuple and object return types
@@ -916,7 +922,7 @@ class EconomyContract {
     } catch (error) {
       console.error(`Error fetching property price for ${propertyType}:`, error);
       // Return fallback prices based on property type if available
-      const fallbackProperty = PROPERTY_TYPES[propertyType as keyof typeof PROPERTY_TYPES];
+      const fallbackProperty = PROPERTY_TYPES[propertyType as keyof typeof PROPERTY_TYPES] || PROPERTY_TYPES[normalizedPropertyKey(propertyType) as keyof typeof PROPERTY_TYPES];
       if (fallbackProperty) {
         const basePrice = BigInt(fallbackProperty.basePrice * 1e18);
         return { 
@@ -1025,6 +1031,10 @@ class EconomyContract {
       return BigInt(0);
     }
   }
+}
+
+function normalizedPropertyKey(key: string): string {
+  return key.toLowerCase();
 }
 
 // WLD Token Contract Functions
