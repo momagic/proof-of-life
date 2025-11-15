@@ -1,6 +1,5 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import MiniKitProvider from "@/providers/minikit-provider";
 import UnifiedMiniKitAuthProvider from "@/providers/unified-minikit-auth";
 import { ErudaProvider } from "@/providers/eruda-provider";
@@ -8,7 +7,6 @@ import { WorldAppProvider } from "@/contexts/WorldAppContext";
 import { ClientLayout } from "@/components/ClientLayout";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Proof of Life",
@@ -32,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="font-sans">
         <ErudaProvider>
           <WorldAppProvider>
             <MiniKitProvider>
